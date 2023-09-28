@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Open_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/themeProvider";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
             storageKey="app-theme"
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
