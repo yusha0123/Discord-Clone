@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/themeProvider";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { ModalProvider } from "@/components/providers/ModalProvider";
+import QueryWrapper from "@/components/providers/QueryWrapper";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -26,16 +27,18 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={cn(openSans.className, "bg-white dark:bg-[#313338]")}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="app-theme"
-          >
-            <ModalProvider />
-            {children}
-            <Toaster />
-          </ThemeProvider>
+          <QueryWrapper>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+              storageKey="app-theme"
+            >
+              <ModalProvider />
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </QueryWrapper>
         </body>
       </html>
     </ClerkProvider>

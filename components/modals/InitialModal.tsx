@@ -25,6 +25,7 @@ import FileUpload from "../FileUpload";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
 
 const formShema = z.object({
   name: z.string().min(1, {
@@ -39,6 +40,24 @@ const InitialModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const mutation = useMutation({
+    mutationFn: (values: z.infer<typeof formShema>) => {
+      return axios.post("/api/servers", values);
+    },
+    onSuccess: () => {
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    },
+  });
 
   useEffect(() => {
     setIsOpen(true);
@@ -52,21 +71,8 @@ const InitialModal = () => {
     },
   });
 
-  const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formShema>) => {
-    try {
-      await axios.post("/api/servers", values);
-      form.reset();
-      router.refresh();
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-      });
-    }
+    mutation.mutate(values);
   };
 
   if (!isOpen) return null;
@@ -112,7 +118,7 @@ const InitialModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={mutation.isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0 "
                         placeholder="Enter server name"
                         {...field}
@@ -124,7 +130,7 @@ const InitialModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4 ">
-              <Button disabled={isLoading} variant={"primary"}>
+              <Button disabled={mutation.isLoading} variant={"primary"}>
                 Create
               </Button>
             </DialogFooter>

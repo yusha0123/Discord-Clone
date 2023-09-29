@@ -25,6 +25,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
+import { useMutation } from "@tanstack/react-query";
 
 const formShema = z.object({
   name: z.string().min(1, {
@@ -39,9 +40,25 @@ export const CreateServerModal = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { isOpen, onClose, type } = useModal();
-
   const isModalOpen = isOpen && type === "createServer";
-
+  const mutation = useMutation({
+    mutationFn: (values: z.infer<typeof formShema>) => {
+      return axios.post("/api/servers", values);
+    },
+    onSuccess: () => {
+      form.reset();
+      router.refresh();
+      onClose();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    },
+  });
   const form = useForm({
     resolver: zodResolver(formShema),
     defaultValues: {
@@ -50,21 +67,8 @@ export const CreateServerModal = () => {
     },
   });
 
-  const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formShema>) => {
-    try {
-      await axios.post("/api/servers", values);
-      form.reset();
-      router.refresh();
-      onClose();
-    } catch (error) {
-      console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-      });
-    }
+    mutation.mutate(values);
   };
 
   const handleClose = () => {
@@ -113,7 +117,7 @@ export const CreateServerModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isLoading}
+                        disabled={mutation.isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0 "
                         placeholder="Enter server name"
                         {...field}
@@ -125,7 +129,7 @@ export const CreateServerModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4 ">
-              <Button disabled={isLoading} variant={"primary"}>
+              <Button disabled={mutation.isLoading} variant={"primary"}>
                 Create
               </Button>
             </DialogFooter>
