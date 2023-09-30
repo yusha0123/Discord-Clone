@@ -7,24 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useModal } from "@/hooks/useModalStore";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { useToast } from "../ui/use-toast";
-import { ServerWithMembersWithProfile } from "@/types";
-import { ScrollArea } from "../ui/scroll-area";
-import { UserAvatar } from "../UserAvatar";
-import {
-  Check,
-  Gavel,
-  Loader2,
-  MoreVertical,
-  Shield,
-  ShieldAlert,
-  ShieldCheck,
-  ShieldQuestion,
-} from "lucide-react";
-import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,12 +15,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
-  DropdownMenuTrigger,
   DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useModal } from "@/hooks/useModalStore";
+import { ServerWithMembersWithProfile } from "@/types";
 import { MemberRole } from "@prisma/client";
-import qs from "query-string";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import {
+  Check,
+  Loader2,
+  MoreVertical,
+  Shield,
+  ShieldAlert,
+  ShieldCheck,
+  ShieldQuestion,
+  UserX2,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import qs from "query-string";
+import { useState } from "react";
+import { UserAvatar } from "../UserAvatar";
+import { ScrollArea } from "../ui/scroll-area";
+import { useToast } from "../ui/use-toast";
 
 const roleIcon = {
   GUEST: null,
@@ -126,7 +126,8 @@ export const MembersModal = () => {
             Manage Members
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            {server?.members?.length} Members
+            {server?.members?.length}{" "}
+            {server?.members?.length == 1 ? "Member" : "Members"}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[320px] pr-6">
@@ -179,8 +180,8 @@ export const MembersModal = () => {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                          <Gavel className="h-4 w-4 mr-2" />
+                        <DropdownMenuItem onClick={() => kickMember(member.id)}>
+                          <UserX2 className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
                       </DropdownMenuContent>

@@ -89,7 +89,29 @@ export async function DELETE(
         id: serverId,
         profileId: profile.id,
       },
+      data: {
+        members: {
+          deleteMany: {
+            id: params.memberId,
+            profileId: {
+              not: profile.id,
+            },
+          },
+        },
+      },
+      include: {
+        members: {
+          include: {
+            profile: true,
+          },
+          orderBy: {
+            role: "asc",
+          },
+        },
+      },
     });
+
+    return NextResponse.json(server);
   } catch (error) {
     console.log("[SERVER_ERROR]", error);
     return new NextResponse("Internal Server Error!", { status: 500 });
