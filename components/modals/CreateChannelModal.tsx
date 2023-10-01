@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { ChannelType } from "@prisma/client";
 import qs from "query-string";
+import { useEffect } from "react";
 
 const formShema = z.object({
   name: z
@@ -49,8 +50,9 @@ const formShema = z.object({
 export const CreateChannelModal = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const params = useParams();
+  const { channelType } = data;
   const isModalOpen = isOpen && type === "createChannel";
   const mutation = useMutation({
     mutationFn: ({
@@ -80,7 +82,7 @@ export const CreateChannelModal = () => {
     resolver: zodResolver(formShema),
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   });
 
@@ -98,6 +100,14 @@ export const CreateChannelModal = () => {
     form.reset();
     onClose();
   };
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [channelType, form]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
