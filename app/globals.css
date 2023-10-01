@@ -79,6 +79,17 @@ body,
   body {
     @apply bg-background text-foreground;
   }
+  ::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-gray-400;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-300 rounded-lg;
+  }
 }
 
 @import "~@uploadthing/react/styles.css";
