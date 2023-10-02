@@ -39,7 +39,7 @@ export const ServerMember = ({ member, server }: Props) => {
     >
       <UserAvatar
         src={member.profile.imageUrl}
-        className="h-8 w-8 md:h-10 md:w-10"
+        className="h-8 w-8 md:h-8 md:w-8"
       />
       <p
         className={cn(
