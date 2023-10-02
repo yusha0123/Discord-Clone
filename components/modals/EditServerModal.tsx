@@ -138,7 +138,7 @@ export const EditServerModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4 ">
-              <Button disabled={mutation.isLoading} variant={"primary"}>
+              <Button isLoading={mutation.isLoading} variant={"primary"}>
                 Save
               </Button>
             </DialogFooter>

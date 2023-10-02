@@ -90,7 +90,7 @@ export const InviteModal = () => {
             className="text-xs text-zinc-500 mt-4"
             size={"sm"}
             variant={"link"}
-            disabled={mutation.isLoading}
+            isLoading={mutation.isLoading}
             onClick={generateNewLink}
           >
             Generate a New Link

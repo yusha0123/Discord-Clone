@@ -69,7 +69,7 @@ export const DeleteServerModal = () => {
               Cancel
             </Button>
             <Button
-              disabled={mutation.isLoading}
+              isLoading={mutation.isLoading}
               variant={"destructive"}
               onClick={handleLeave}
             >

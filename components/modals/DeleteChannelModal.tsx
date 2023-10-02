@@ -78,7 +78,7 @@ export const DeleteChannelModal = () => {
               Cancel
             </Button>
             <Button
-              disabled={mutation.isLoading}
+              isLoading={mutation.isLoading}
               variant={"destructive"}
               onClick={handleDelete}
             >

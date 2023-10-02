@@ -129,7 +129,7 @@ export const CreateServerModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4 ">
-              <Button disabled={mutation.isLoading} variant={"primary"}>
+              <Button variant={"primary"} isLoading={mutation.isLoading}>
                 Create
               </Button>
             </DialogFooter>
