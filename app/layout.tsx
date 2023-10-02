@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { ModalProvider } from "@/components/providers/ModalProvider";
 import QueryWrapper from "@/components/providers/QueryWrapper";
+import { SocketProvider } from "@/components/providers/SocketProvider";
 
 const font = Open_Sans({
   weight: "400",
@@ -34,9 +35,11 @@ export default function RootLayout({
               enableSystem={false}
               storageKey="app-theme"
             >
-              <ModalProvider />
-              {children}
-              <Toaster />
+              <SocketProvider>
+                <ModalProvider />
+                {children}
+                <Toaster />
+              </SocketProvider>
             </ThemeProvider>
           </QueryWrapper>
         </body>
