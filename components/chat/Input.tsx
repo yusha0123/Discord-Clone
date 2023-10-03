@@ -5,12 +5,14 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input as CustumInput } from "@/components/ui/input";
-import { Plus, Smile } from "lucide-react";
+import { Plus } from "lucide-react";
 import axios from "axios";
 import qs from "query-string";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
+import { EmojiPicker } from "@/components/EmojiPicker";
+import { useRouter } from "next/navigation";
 
 interface Props {
   apiUrl: string;
@@ -26,6 +28,7 @@ const formShema = z.object({
 export const Input = ({ apiUrl, query, name, type }: Props) => {
   const { toast } = useToast();
   const { onOpen } = useModal();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formShema>>({
     resolver: zodResolver(formShema),
     defaultValues: {
@@ -49,6 +52,10 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
       });
+    },
+    onSuccess: () => {
+      form.reset();
+      router.refresh();
     },
   });
 
@@ -86,7 +93,11 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
                     {...field}
                   />
                   <div className="absolute top-7 right-8">
-                    <Smile />
+                    <EmojiPicker
+                      onChange={(emoji: string) =>
+                        field.onChange(`${field.value} ${emoji}`)
+                      }
+                    />
                   </div>
                 </div>
               </FormControl>
