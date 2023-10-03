@@ -1,6 +1,6 @@
 "use client";
 import { UploadDropzone } from "@/lib/uploadthing";
-import { X } from "lucide-react";
+import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
 
 interface props {
@@ -10,9 +10,21 @@ interface props {
 }
 
 const FileUpload = ({ onChange, value, endpoint }: props) => {
-  const fileType = value?.split(".").pop();
+  const fileType = value ? value.split(".").pop() : null;
 
-  if (value && fileType !== "pdf") {
+  if (!value) {
+    return (
+      <UploadDropzone
+        endpoint={endpoint}
+        onClientUploadComplete={(res) => {
+          onChange(res?.[0].url);
+        }}
+        onUploadError={(error: Error) => console.log(error)}
+      />
+    );
+  }
+
+  if (fileType && fileType.startsWith("image/")) {
     return (
       <div className="relative h-20 w-20">
         <Image fill src={value} alt="upload" className="rounded-full" />
@@ -26,14 +38,18 @@ const FileUpload = ({ onChange, value, endpoint }: props) => {
       </div>
     );
   }
+
   return (
-    <UploadDropzone
-      endpoint={endpoint}
-      onClientUploadComplete={(res) => {
-        onChange(res?.[0].url);
-      }}
-      onUploadError={(error: Error) => console.log(error)}
-    />
+    <div className="relative flex items-center p-2 mt-2 rounded-md bg-background/10">
+      <FileIcon className="h-20 w-20 fill-indigo-200 stroke-indigo-400" />
+      <button
+        onClick={() => onChange("")}
+        className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
+        type="button"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </div>
   );
 };
 

@@ -10,6 +10,7 @@ import axios from "axios";
 import qs from "query-string";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
+import { useModal } from "@/hooks/useModalStore";
 
 interface Props {
   apiUrl: string;
@@ -24,6 +25,7 @@ const formShema = z.object({
 
 export const Input = ({ apiUrl, query, name, type }: Props) => {
   const { toast } = useToast();
+  const { onOpen } = useModal();
   const form = useForm<z.infer<typeof formShema>>({
     resolver: zodResolver(formShema),
     defaultValues: {
@@ -70,6 +72,7 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
                 <div className="relative p-4 pb-6">
                   <button
                     type="button"
+                    onClick={() => onOpen("msgFile", { apiUrl, query })}
                     className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center"
                   >
                     <Plus className="text-white dark:text-[#313338]" />
