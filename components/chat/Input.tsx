@@ -6,6 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input as CustumInput } from "@/components/ui/input";
 import { Plus, Smile } from "lucide-react";
+import axios from "axios";
+import qs from "query-string";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   apiUrl: string;
@@ -19,17 +23,39 @@ const formShema = z.object({
 });
 
 export const Input = ({ apiUrl, query, name, type }: Props) => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formShema>>({
     resolver: zodResolver(formShema),
     defaultValues: {
       content: "",
     },
   });
-
-  const isLoading = form.formState.isSubmitting;
+  const mutation = useMutation({
+    mutationFn: ({
+      url,
+      values,
+    }: {
+      url: string;
+      values: z.infer<typeof formShema>;
+    }) => {
+      return axios.post(url, values);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    },
+  });
 
   const onSubmit = async (values: z.infer<typeof formShema>) => {
-    console.log(values);
+    const url = qs.stringifyUrl({
+      url: apiUrl,
+      query,
+    });
+    mutation.mutate({ url, values });
   };
 
   return (
@@ -49,7 +75,7 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
                     <Plus className="text-white dark:text-[#313338]" />
                   </button>
                   <CustumInput
-                    disabled={isLoading}
+                    disabled={mutation.isLoading}
                     className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                     placeholder={`Message ${
                       type === "conversation" ? name : "#" + name
