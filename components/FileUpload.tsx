@@ -1,5 +1,6 @@
 "use client";
 import { UploadDropzone } from "@/lib/uploadthing";
+import { imageExtensions } from "@/lib/utils";
 import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
 
@@ -10,7 +11,7 @@ interface props {
 }
 
 const FileUpload = ({ onChange, value, endpoint }: props) => {
-  const fileType = value ? value.split(".").pop() : null;
+  const fileExtension = value ? value.split(".").pop()?.toLowerCase() : "";
 
   if (!value) {
     return (
@@ -24,7 +25,9 @@ const FileUpload = ({ onChange, value, endpoint }: props) => {
     );
   }
 
-  if (fileType && fileType.startsWith("image/")) {
+  const isImage = imageExtensions.includes(fileExtension!);
+
+  if (isImage) {
     return (
       <div className="relative h-20 w-20">
         <Image fill src={value} alt="upload" className="rounded-full" />
