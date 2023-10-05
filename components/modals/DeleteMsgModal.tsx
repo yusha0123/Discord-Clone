@@ -13,22 +13,16 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
 import qs from "query-string";
 
-export const DeleteChannelModal = () => {
+export const DeleteMsgModal = () => {
   const { isOpen, onClose, type, data } = useModal();
-  const isModalOpen = isOpen && type === "deleteChannel";
-  const { server, channel } = data;
-  const router = useRouter();
+  const isModalOpen = isOpen && type === "deleteMsg";
+  const { apiUrl, query } = data;
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (url: string) => {
       return axios.delete(url);
-    },
-    onSuccess: () => {
-      router.refresh();
-      router.push(`/servers/${server?.id}`);
     },
     onError: (error) => {
       console.log(error);
@@ -45,10 +39,8 @@ export const DeleteChannelModal = () => {
 
   const handleDelete = () => {
     const url = qs.stringifyUrl({
-      url: `/api/channels/${channel?.id}`,
-      query: {
-        serverId: server?.id,
-      },
+      url: apiUrl || "",
+      query,
     });
     mutation.mutate(url);
   };
@@ -58,14 +50,10 @@ export const DeleteChannelModal = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Delete Channel
+            Delete Message
           </DialogTitle>
           <DialogDescription className="text-zinc-500 text-center">
-            Are you sure you want to Delete{" "}
-            <span className="text-indigo-500 font-semibold">
-              #{channel?.name}
-            </span>{" "}
-            ?
+            Are you sure you want to Delete this Message?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-4 ">
