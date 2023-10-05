@@ -1,21 +1,20 @@
 import qs from "query-string";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSocket } from "@/components/providers/SocketProvider";
-import axios from "axios";
 
-interface Props {
+interface ChatQueryProps {
   queryKey: string;
+  apiUrl: string;
   paramKey: "channelId" | "conversationId";
   paramValue: string;
-  apiUrl: string;
 }
 
 export const useChatQuery = ({
   queryKey,
+  apiUrl,
   paramKey,
   paramValue,
-  apiUrl,
-}: Props) => {
+}: ChatQueryProps) => {
   const { isConnected } = useSocket();
 
   const fetchMessages = async ({ pageParam = undefined }) => {
@@ -30,8 +29,8 @@ export const useChatQuery = ({
       { skipNull: true }
     );
 
-    const response = await axios.get(url);
-    return response.data;
+    const res = await fetch(url);
+    return res.json();
   };
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
