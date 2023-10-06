@@ -91,6 +91,7 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
                       type === "conversation" ? name : "#" + name
                     }`}
                     {...field}
+                    autoComplete="off"
                   />
                   <div className="absolute top-7 right-8">
                     <EmojiPicker

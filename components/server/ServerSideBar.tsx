@@ -33,7 +33,7 @@ const ServerSideBar = async ({ serverId }: props) => {
   const profile = await currentProfile();
 
   if (!profile) {
-    redirect("/");
+    redirect("/sign-in");
   }
 
   const server = await db.server.findUnique({
