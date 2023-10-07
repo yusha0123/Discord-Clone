@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Discord Clone
 
-## Getting Started
+Welcome to the **Discord Clone** project! This project is designed to replicate the core features of the popular communication platform Discord, using a variety of technologies for a fully functional experience. Below, you'll find information on the project's tech stack, features, and how to set it up.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js 13**: A powerful React framework for building web applications with server-side rendering.
+- **Shadcn UI**: A styling library used to create a sleek and modern user interface.
+- **Clerk**: For authentication, ensuring secure access to the application.
+- **Uploadthing**: Enables file uploading and cloud storage for media and files.
+- **PlanetScale MySQL Database**: A scalable and reliable database for storing application data.
+- **Prisma ORM**: Used for querying and interacting with the database.
+- **Socket.io**: Provides real-time messaging functionality, allowing users to chat instantly.
+- **Livekit**: Facilitates audio and video calls, making real-time communication a breeze.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Server Management
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Users can join servers using invite links from others.
+- Users can create their own servers.
+- Server administrators can create and manage channels within their server.
+- Admins can manage the roles of server members, assigning them as moderators or guests.
 
-## Learn More
+### Real-Time Communication
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Real-time messages are delivered instantly within channels.
+- Audio and video call channels for seamless communication.
+- Private 1:1 messages between members of a channel.
