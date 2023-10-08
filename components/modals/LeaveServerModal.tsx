@@ -14,7 +14,6 @@ import axios from "axios";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
-
 export const LeaveServerModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const isModalOpen = isOpen && type === "leaveServer";
@@ -56,7 +55,8 @@ export const LeaveServerModal = () => {
             <span className="text-indigo-500 font-semibold">
               {server?.name}
             </span>
-            ? You won't be able to re-join this server unless you are reinvited.
+            ? You won&apos;t be able to re-join this server unless you are
+            reinvited.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-4 ">
