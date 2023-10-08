@@ -5,7 +5,6 @@ import "@livekit/components-styles";
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
 import { useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
-import { Channel } from "@prisma/client";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
 
@@ -39,6 +38,7 @@ export const MediaRoom = ({ chatId, video, audio }: Props) => {
         });
       }
     })();
+    // eslint-disable-next-line
   }, [user?.firstName, user?.lastName, chatId]);
 
   if (token === "") {
