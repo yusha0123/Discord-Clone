@@ -93,7 +93,7 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
                     {...field}
                     autoComplete="off"
                   />
-                  <div className="absolute top-7 right-8">
+                  <div className="absolute top-7 right-8 hidden md:block">
                     <Picker
                       onChange={(emoji: string) =>
                         field.onChange(`${field.value} ${emoji}`)
