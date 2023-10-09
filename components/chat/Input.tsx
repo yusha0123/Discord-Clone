@@ -11,7 +11,7 @@ import qs from "query-string";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
-import { EmojiPicker } from "@/components/EmojiPicker";
+import { Picker } from "@/components/EmojiPicker";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -94,7 +94,7 @@ export const Input = ({ apiUrl, query, name, type }: Props) => {
                     autoComplete="off"
                   />
                   <div className="absolute top-7 right-8">
-                    <EmojiPicker
+                    <Picker
                       onChange={(emoji: string) =>
                         field.onChange(`${field.value} ${emoji}`)
                       }
