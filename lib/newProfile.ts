@@ -33,5 +33,6 @@ export const newProfile = async () => {
     return newUser;
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
